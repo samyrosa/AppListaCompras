@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Database from './Database';
+import { Feather as Icon } from '@expo/vector-icons';
 
 export default function AppForm({ route, navigation }) {
 
@@ -18,9 +19,10 @@ export default function AppForm({ route, navigation }) {
 
     function handleDescriptionChange(descricao) { setDescricao(descricao); }
     function handleQuantityChange(quantidade) { setQuantidade(quantidade); }
+
     async function handleButtonPress() {
         const listItem = { descricao, quantidade: parseInt(quantidade) };
-        Database.saveItem(listItem)
+        Database.saveItem(listItem, id)
             .then(response => navigation.navigate("AppList", listItem));
     }
     return (
@@ -40,8 +42,12 @@ export default function AppForm({ route, navigation }) {
                     keyboardType={'numeric'}
                     clearButtonMode="always"
                     value={quantidade.toString()} />
+
                 <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
-                    <Text style={styles.buttonText}>Salvar</Text>
+                    <View style={styles.buttonContainer}>
+                        <Icon name="save" size={22} color="white" />
+                        <Text style={styles.buttonText}>Salvar</Text>
+                    </View>
                 </TouchableOpacity>
 
             </View>
@@ -95,6 +101,15 @@ const styles = StyleSheet.create({
         shadowColor: '#ccc',
     },
     buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    buttonContainer: {
+        flexDirection: "row"
+    },
+    buttonText: {
+        marginLeft: 10,
+        fontSize: 18,
         color: '#fff',
         fontWeight: 'bold',
     }
