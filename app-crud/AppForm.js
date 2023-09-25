@@ -24,7 +24,11 @@ export default function AppForm({ route, navigation }) {
         const listItem = { descricao, quantidade: parseInt(quantidade) };
         Database.saveItem(listItem, id)
             .then(response => navigation.navigate("AppList", listItem));
-    }
+
+        setDescricao('');
+        setQuantidade('');
+        route.params.id = undefined;
+    };
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Item para comprar</Text>
@@ -34,14 +38,14 @@ export default function AppForm({ route, navigation }) {
                     onChangeText={handleDescriptionChange}
                     placeholder="O que está faltando em casa?"
                     clearButtonMode="always"
-                    value={descricao} />
+                    value={descricao}/>
                 <TextInput
                     style={styles.input}
                     onChangeText={handleQuantityChange}
                     placeholder="Digite a quantidade"
                     keyboardType={'numeric'}
                     clearButtonMode="always"
-                    value={quantidade.toString()} />
+                    value={quantidade.toString()}/>
 
                 <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
                     <View style={styles.buttonContainer}>
